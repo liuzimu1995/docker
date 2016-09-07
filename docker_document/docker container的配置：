@@ -1,0 +1,161 @@
+docker run -itd -p 5080:80 -p 5088:88 --name TestConf -v /v0:/cv0 --volumes-from nginxphp --link dockermysql --link dockerredis centos:6.8 bin/bash
+
+运行上面命令之后生成的docker container的配置参数：
+[
+{
+    "Id": "73ee690b30bd0fcdd76b8647da2a1e2560339dac0ea52bc6eb5f56ae6b46fe19",[创建之后的容器ID]
+    "Created": "2016-08-19T15:29:46.247513241Z",
+    "Path": "bin/bash",[[执行的脚步路径]]
+    "Args": [],
+    "State": {
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 128,
+        "Error": "Bind for 0.0.0.0:5080 failed: port is already allocated",
+        "StartedAt": "0001-01-01T00:00:00Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+    },
+    "Image": "c51f770ba2ca4650038d1a058e13d42195cf481151da1287341a9d44903094c9",[[镜像名或者镜像ID]]
+    "NetworkSettings": {
+        "Bridge": "",
+        "EndpointID": "",
+        "Gateway": "",
+        "GlobalIPv6Address": "",
+        "GlobalIPv6PrefixLen": 0,
+        "HairpinMode": false,
+        "IPAddress": "",
+        "IPPrefixLen": 0,
+        "IPv6Gateway": "",
+        "LinkLocalIPv6Address": "",
+        "LinkLocalIPv6PrefixLen": 0,
+        "MacAddress": "",
+        "NetworkID": "",
+        "PortMapping": null,
+        "Ports": null,
+        "SandboxKey": "",
+        "SecondaryIPAddresses": null,
+        "SecondaryIPv6Addresses": null
+    },
+    "ResolvConfPath": "",
+    "HostnamePath": "",
+    "HostsPath": "",
+    "LogPath": "",
+    "Name": "/TestConf",[[容器名]]
+    "RestartCount": 0,
+    "Driver": "devicemapper",
+    "ExecDriver": "native-0.2",
+    "MountLabel": "",
+    "ProcessLabel": "",
+    "Volumes": {
+        "/cv0": "/v0",
+        "/v0": "/var/lib/docker/volumes/f88db81e328894212f7b4b2404e9d4af2cad1965eb56025576f325c2322631e1/_data"
+    },
+    "VolumesRW": {
+        "/cv0": true,
+        "/v0": true
+    },
+    "AppArmorProfile": "",
+    "ExecIDs": null,
+    "HostConfig": {
+        "Binds": [
+            "/v0:/cv0"
+        ],
+        "ContainerIDFile": "",
+        "LxcConf": [],
+        "Memory": 0,
+        "MemorySwap": 0,
+        "CpuShares": 0,
+        "CpuPeriod": 0,
+        "CpusetCpus": "",
+        "CpusetMems": "",
+        "CpuQuota": 0,
+        "BlkioWeight": 0,
+        "OomKillDisable": false,
+        "Privileged": false,
+        "PortBindings": {
+            "80/tcp": [
+                {
+                    "HostIp": "",
+                    "HostPort": "5080"
+                }
+            ],[[把暴露的tcp80端口映射到宿主机的5080端口]]
+            "88/tcp": [
+                {
+                    "HostIp": "",
+                    "HostPort": "5088"
+                }
+            ]
+        },
+        "Links": [
+            "/dockermysql:/TestConf/dockermysql",
+            "/dockerredis:/TestConf/dockerredis"
+        ],
+        "PublishAllPorts": false,
+        "Dns": null,
+        "DnsSearch": null,
+        "ExtraHosts": null,
+        "VolumesFrom": [
+            "nginxphp"[[映射的容器名 --volumes-from nginxphp]]
+        ],
+        "Devices": [],
+        "NetworkMode": "bridge",
+        "IpcMode": "",
+        "PidMode": "",
+        "UTSMode": "",
+        "CapAdd": null,
+        "CapDrop": null,
+        "RestartPolicy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+        },
+        "SecurityOpt": null,
+        "ReadonlyRootfs": false,
+        "Ulimits": null,
+        "LogConfig": {
+            "Type": "json-file",
+            "Config": {}
+        },
+        "CgroupParent": ""
+    },
+    "Config": {
+        "Hostname": "73ee690b30bd",
+        "Domainname": "",
+        "User": "",
+        "AttachStdin": false,
+        "AttachStdout": false,
+        "AttachStderr": false,
+        "PortSpecs": null,
+        "ExposedPorts": {
+            "80/tcp": {},[[要暴露的端口]]
+            "88/tcp": {}
+        },
+        "Tty": true,[[docker run -t]]
+        "OpenStdin": true,[[docker run -i]]
+        "StdinOnce": false,
+        "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        ],
+        "Cmd": [
+            "bin/bash"[[执行的脚步路径]]
+        ],
+        "Image": "centos:6.8",[[镜像名:镜像标签]]
+        "Volumes": null,
+        "VolumeDriver": "",
+        "WorkingDir": "",
+        "Entrypoint": null,
+        "NetworkDisabled": false,
+        "MacAddress": "",
+        "OnBuild": null,
+        "Labels": {
+            "build-date": "2016-06-02",
+            "license": "GPLv2",
+            "name": "CentOS Base Image",
+            "vendor": "CentOS"
+        }
+    }
+}
+]

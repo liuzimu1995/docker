@@ -1,0 +1,81 @@
+
+
+
+//避免docker空间局限
+docker -d --storage-opt dm.basesize=100G
+
+
+docker images
+
+docker run  -tid -p 53306:3306 -p 5022:22 -p 58409:8409 -v /dockerdata zhenming/lnmp:ssh bin/bash
+
+docker run  -tid -p 53306:3306 -p 5022:22 -p 58409:8409  -v /usr/local zhenming/lnmp:ssh /etc/startup.sh
+
+docker run  -tid -p 53306:3306 -p 5022:22 -p 58409:8409    zhenming/lnmp:ssh /etc/startup.sh
+守护模式
+docker run -d -t -i images/xxx:tag bin/bash
+
+attach模式
+docker attach fd215e00ca1f
+detach 模式（退出不要直接exit）
+先按，ctrl+p再按，ctrl+q
+
+docker run -d -t -i -p 8888:88 -p 8080:80 images/xxx:tag bin/bash
+
+数据卷映射 把container里的/dockerdata映射到物理主机
+docker run -t -tid -p 53306:3306 -p 5022:22 -p 58409:8409 -v /dockerdata zhenming/lnmp:ssh bin/bash
+把物理机的/usr/local 映射到 container /data目录
+docker run -t -tid -p 53306:3306 -p 5022:22 -p 58409:8409 -v /usr/local:/data   zhenming/lnmp:ssh /etc/startup.sh
+
+指定容器运行时名称--用于link
+docker run -t -tid --name lnmp zhenming/lnmp:ssh bin/bash
+连接容器【事实上hosts对ip绑定】把lnmp映射成spec-lnmp
+docker run -t -tid --link lnmp:spec-lnmp zhenming/lnmp:ssh bin/bash
+
+
+查看容器的内部IP
+docker inspect --format='{{.NetworkSettings.IPAddress}}' b8d81415c507
+
+b8d81415c507
+
+
+//容器备份
+docker save -o ~/container-backup.tar server/centos:tag
+//容器恢复
+docker load -i ~/container-backup.tar
+
+
+
+
+last containerid
+11a2e4dbc8d9
+
+
+docker run -t -tid  --link name:redis zhenming/lnmp:ssh bin/bash
+
+docker ps -a | awk '{print $1}' | xargs docker kill
+docker ps -a | awk '{print $1}' | xargs docker rm -v
+
+
+docker 坑：
+1.在启动有container进行端口映射 -p 后，在物理主机不要进行iptables restart 否则会报错.chain错误
+2.进行-v映射后从物理主机进行复制文件到container绕过了namespace，commit不会有效果
+
+3.https://github.com/docker/docker/issues/3639
+修复，导出tar,然后编辑layer的json把volumn删掉
+
+
+rtmp
+
+docker run -tid -p 58080:8080 -p 1935:1935 jasonrivers/nginx-rtmp 
+
+
+docker run --detach \
+    --hostname gitlab.example.com \
+    --publish 443:443 --publish 80:80 --publish 5022:22 \
+    --name gitlab \
+    --restart always \
+    --volume /srv/gitlab/config:/etc/gitlab \
+    --volume /srv/gitlab/logs:/var/log/gitlab \
+    --volume /srv/gitlab/data:/var/opt/gitlab \
+    gitlab/gitlab-ce:latest

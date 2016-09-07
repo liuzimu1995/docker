@@ -1,0 +1,58 @@
+默认情况下，Docker只允许通过unix socket通信操作Docker daemon，但有时我们想通过HTTP调用其Rest API，需单独配置启动参数
+
+为了使配置永久生效，在Ubuntu环境下修改其配置文件/etc/default/docker，加入DOCKER_OPTS="-H=unix:///var/run/docker.sock -H=0.0.0.0:6732"，重启Docker服务，可通过浏览器访问设置主机：端口号（6372）/ Docker API操作Docker
+
+
+如何调用docker remote api?
+你要把 docker daemon 绑定到该端口上。默认情况下，docker daemon使用unix socket(unix:///var/run/docker.sock)
+先停止docker daemon再重新启动：
+service docker stop
+docker -d -H unix:///var/run/docker.sock -H 0.0.0.0:4243
+之后就可以： curl http://127.0.0.1:4243/containers/json
+
+
+
+
+
+centos6.6安装php5.6
+追加源
+1.epel源:yum -y install epel-release
+2.remi源:rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+
+查看源列表
+yum list --enablerepo=remi --enablerepo=remi-php56 | grep php
+
+安装PHP
+1.安装yum -y install --enablerepo=remi --enablerepo=remi-php56 php php-opcache php-devel php-mbstring php-mcrypt php-mysqlnd php-phpunit-PHPUnit php-pecl-xdebug php-pecl-xhprof php-fpm
+2.配置php-fpm。配置文件在/etc/php-fpm.conf和/etc/php-fpm.d/www.conf.
+3.启动php-fpmx service php-fpm start
+yum -y install --enablerepo=remi --enablerepo=remi-php56 php php-mysqlnd php-fpm
+
+操作用户：root
+系统环境：centos6.6 x64
+安装方式：扩展安装
+软件：composer.phar
+软件下载目录：/root/opt
+1.下载composer.phar 
+[root#localhost opt]# curl -sS https://getcomposer.org/installer | php
+2.把composer.phar移动到环境下让其变成可执行
+[root@localhost opt]# mv composer.phar /usr/local/bin/composer
+3.测试
+[root@localhost opt]# composer -V
+Composer version 1.0-dev (8775c948956c9e0e0a5fd723cd84c94b3ea3d7e9) 2015-07-01 09:29:53
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
